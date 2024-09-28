@@ -1,0 +1,28 @@
+name: Pardus
+
+on: 
+  workflow_dispatch:
+ 
+jobs:
+  proxmox:
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: Set up Docker
+        uses: crazy-max/ghaction-setup-docker@v3.3.0
+
+      - name: Getting Updates and Installing Tailscale, Docker.
+        run: |
+          sudo apt update -y
+          sudo apt install aria2 websockify docker-compose novnc tigervnc-standalone-server -y
+          curl -fsSL https://tailscale.com/install.sh | sh
+          sudo tailscale up --ssh
+      - name: Copying Docker Container Files and Setting Everything Up.
+        run: |
+          websockify --web /usr/share/novnc/ --wrap-mode=ignore 6080 localhost:5900 &
+          sleep 2
+          wget -O docker-compose.yml https://github.com/Efebey2903/Test-Linux-Distros/raw/refs/heads/main/Pardus.yml
+          sleep 1
+          docker-compose build
+          sleep 3
+          docker-compose up
