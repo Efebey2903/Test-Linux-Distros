@@ -1,0 +1,19 @@
+services:
+  qemu:
+    container_name: qemu
+    image: qemux/qemu-docker
+    environment:
+      CPU_CORES: "3"
+      RAM_SIZE: "12G"
+      DISK_SIZE: "127G"
+      BOOT: "https://indir.pardus.org.tr/ISO/Pardus23/Pardus-23.1-GNOME-amd64.iso"
+      ARGUMENTS: "-netdev user,id=net0,hostfwd=tcp::8006-:8006 -device virtio-net-pci,netdev=net0 -device usb-tablet"
+    devices:
+      - /dev/kvm
+    volumes:
+      - /mnt:/storage
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 8006:8006
+    stop_grace_period: 2m
