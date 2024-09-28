@@ -7,7 +7,7 @@ services:
       RAM_SIZE: "12G"
       DISK_SIZE: "127G"
       BOOT: "https://indir.pardus.org.tr/ISO/Pardus23/Pardus-23.1-GNOME-amd64.iso"
-      ARGUMENTS: "-netdev user,id=net0,hostfwd=tcp::8006-:8006 -device virtio-net-pci,netdev=net0 -device usb-tablet"
+      ARGUMENTS: "-netdev user,id=net0 -device virtio-net-pci,netdev=net0 -device usb-tablet"
     devices:
       - /dev/kvm
     volumes:
